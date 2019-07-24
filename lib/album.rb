@@ -1,6 +1,7 @@
 class Album
   attr_reader :id
   attr_accessor :name, :artist, :year, :genre
+
   @@albums = {}
   @@sold_albums = {}
   @@total_rows = 0
@@ -27,6 +28,10 @@ class Album
     @@albums.delete(self.id)
   end
 
+  def songs
+    Song.find_by_album(self.id)
+  end
+
   def self.all()
     @@albums.values()
   end
@@ -45,19 +50,19 @@ class Album
   end
 
   def self.search(album_name)
-    @search_array = []
+    search_array = []
     @@albums.each_value do |value|
       if value.name.match?(album_name)
-        @search_array.push(value)
+        search_array.push(value)
       elsif value.artist.match?(album_name)
-        @search_array.push(value)
+        search_array.push(value)
       elsif value.year.match?(album_name)
-        @search_array.push(value)
+        search_array.push(value)
       elsif value.genre.match?(album_name)
-        @search_array.push(value)
+        search_array.push(value)
       end
     end
-    return @search_array
+    return search_array
   end
 
   def self.sort()
